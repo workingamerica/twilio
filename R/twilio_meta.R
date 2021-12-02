@@ -16,7 +16,8 @@
 #'   project, 
 #'   max_dist, 
 #'   msgsvc_sid, 
-#'   sid, token, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   token = Sys.getenv('TWILIO_AUTH_TOKEN'),
 #'   progress=FALSE, verbose=FALSE)
 #'
 #' @param phone Single phone number to match, 10 digit (2025555555) or 12 digit (+12025555555), or 3-digit area code. TODO: Other formats.
@@ -46,8 +47,8 @@
   locality=NA,
   state=NA,
   max_dist,
-  sid,
-  token,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
   progress=FALSE,
   verbose=FALSE
 ) {
@@ -129,8 +130,8 @@
   project,
   max_dist,
   msgsvc_sid,
-  sid,
-  token,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
   progress=FALSE,
   verbose=FALSE
 ) {
@@ -284,7 +285,15 @@
 #' }
 
 
-tw_get_phones <- function(phones, locality=NA, state=NA, project, msgsvc_sid, sid, token, max_dist=75) {
+tw_get_phones <- function(
+  phones, 
+  locality=NA, 
+  state=NA, 
+  project, 
+  msgsvc_sid, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+  max_dist=75) {
   # check for message service SID:
   if(is.na(msgsvc_sid)) stop("Please supply a message service SID.")
   if(nchar(msgsvc_sid)!=34 | substr(msgsvc_sid,1,2)!="MG") stop("Message service SID is invalid.")

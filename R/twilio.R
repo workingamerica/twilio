@@ -145,6 +145,7 @@ tw.incoming_phone_numbers.list <- function(
 ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   u <- paste0(
     'https://api.twilio.com/2010-04-01/Accounts/',sid,
@@ -204,6 +205,7 @@ tw.incoming_phone_numbers.fetch <- function(
   ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXX..XX/IncomingPhoneNumbers/PNXX..XX.json'
   u <- paste0(
@@ -257,6 +259,7 @@ tw.incoming_phone_numbers.delete <- function(
   ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if(is.na(phone_sid)) {
     stop("Must suppy the SID of the phone to delete.", call.=F)
@@ -328,6 +331,7 @@ tw.incoming_phone_numbers.create <- function(
 ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if(is.na(phone_number)==is.na(area_code)) {
     stop("You must specify exactly one of area_code and phone_number.", call.=F)
@@ -426,6 +430,7 @@ tw.available_phone_local <- function(
 ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if( !is.na(area_code) & nchar(area_code)!=3 ) {
     stop("You must provide a US or Canada area code (3 digits).", call.=F)
@@ -518,7 +523,7 @@ tw.messages.list <- function(
 ) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
-  
+  if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   # /Messages.json?
@@ -671,7 +676,12 @@ tw.messaging_services.create <- function(
 #' tw.messaging_services.delete(sid, token, m$sid)
 #' }
 
-tw.messaging_services.list <- function(sid = NA, token = NA, n = 20, alldata = FALSE, verbose = FALSE) {
+tw.messaging_services.list <- function(
+  sid = NA, 
+  token = NA, 
+  n = 20, 
+  alldata = FALSE, 
+  verbose = FALSE) {
   ## check for/create auth token:
   auth <- tw.auth(sid,token)
   

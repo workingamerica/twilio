@@ -12,7 +12,8 @@
   project, 
   max_dist, 
   msgsvc_sid, 
-  sid, token, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
   progress=FALSE, verbose=FALSE)
 }
 \arguments{
