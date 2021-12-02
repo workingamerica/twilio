@@ -5,7 +5,8 @@
 \title{Twilio Spoke API: List Owned Phones}
 \usage{
 tw.incoming_phone_numbers.list(
-  sid = NA, token = NA, 
+  sid = NA, 
+  token = NA, 
   n = 20, 
   phone_number = NA, 
   friendly_name = NA, 

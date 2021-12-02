@@ -99,7 +99,8 @@ tw.httr <- function(resp, simplifyDataFrame=FALSE, debug=FALSE) {
 #' @export tw.incoming_phone_numbers.list
 #' 
 #' @usage tw.incoming_phone_numbers.list(
-#'   sid = NA, token = NA, 
+#'   sid = NA, 
+#'   token = NA, 
 #'   n = 20, 
 #'   phone_number = NA, 
 #'   friendly_name = NA, 
@@ -133,18 +134,17 @@ tw.httr <- function(resp, simplifyDataFrame=FALSE, debug=FALSE) {
 #' tw.incoming_phone_numbers.list(sid, token, n=20)
 #' }
 
+
+
 tw.incoming_phone_numbers.list <- function(
-	sid = NA, token = NA, 
+  sid = NA, token = NA,
 	n = 20, 
 	phone_number = NA,
 	friendly_name = NA, 
 	verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   u <- paste0(
     'https://api.twilio.com/2010-04-01/Accounts/',sid,
@@ -197,12 +197,13 @@ tw.incoming_phone_numbers.list <- function(
 #' }
 #' 
 
-tw.incoming_phone_numbers.fetch <- function(sid = NA, token = NA, phone_sid, verbose = FALSE) {
+tw.incoming_phone_numbers.fetch <- function(
+  sid = NA, token = NA,
+  phone_sid, 
+  verbose = FALSE
+  ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXX..XX/IncomingPhoneNumbers/PNXX..XX.json'
   u <- paste0(
@@ -248,12 +249,14 @@ tw.incoming_phone_numbers.fetch <- function(sid = NA, token = NA, phone_sid, ver
 #' tw.incoming_phone_numbers.delete(sid,token,'PN41fb306bf5c87631fb85ccabd3905843')
 #' }
 
-tw.incoming_phone_numbers.delete <- function(sid = NA, token = NA, phone_sid, verbose = FALSE) {
+tw.incoming_phone_numbers.delete <- function(
+  sid = NA,
+  token = NA,
+  phone_sid, 
+  verbose = FALSE
+  ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(phone_sid)) {
     stop("Must suppy the SID of the phone to delete.", call.=F)
@@ -315,7 +318,8 @@ tw.incoming_phone_numbers.delete <- function(sid = NA, token = NA, phone_sid, ve
 #' }
 
 tw.incoming_phone_numbers.create <- function(
-  sid = NA, token = NA, 
+  sid = NA,
+  token = NA,
   area_code = NA,
   phone_number = NA,
   voice_url = '',
@@ -323,10 +327,7 @@ tw.incoming_phone_numbers.create <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(phone_number)==is.na(area_code)) {
     stop("You must specify exactly one of area_code and phone_number.", call.=F)
@@ -412,7 +413,8 @@ tw.incoming_phone_numbers.create <- function(
 #' }
 
 tw.available_phone_local <- function(
-  sid = NA,  token = NA,
+  sid = NA,
+  token = NA,
   page_size = 1,
   area_code = NA,
   near_number = NA,
@@ -423,10 +425,7 @@ tw.available_phone_local <- function(
   plyr = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if( !is.na(area_code) & nchar(area_code)!=3 ) {
     stop("You must provide a US or Canada area code (3 digits).", call.=F)
@@ -509,7 +508,8 @@ tw.available_phone_local <- function(
 #' }
 
 tw.messages.list <- function(
-  sid = NA, token = NA,
+  sid = NA, 
+  token = NA,
   from = NA,
   to = NA,
   datesent = NA,
@@ -517,10 +517,7 @@ tw.messages.list <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -605,10 +602,7 @@ tw.messaging_services.create <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if( is.na(friendly_name) ) {
     stop("You must provide a friendly name for the service.", call.=F)
@@ -679,10 +673,7 @@ tw.messaging_services.create <- function(
 
 tw.messaging_services.list <- function(sid = NA, token = NA, n = 20, alldata = FALSE, verbose = FALSE) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   # curl -X GET 'https://messaging.twilio.com/v1/Services?PageSize=20' ...
   u <- paste0(
@@ -771,10 +762,7 @@ tw.messaging_services.update <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(service_sid)) {
     stop("Must provide a service SID to update.", call.=F)
@@ -844,10 +832,7 @@ tw.messaging_services.delete <- function(
   service_sid = NA, verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service to delete.", call.=F)
@@ -909,10 +894,7 @@ tw.messaging_services.phone.add <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)
@@ -985,10 +967,7 @@ tw.messaging_services.phone.delete <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)
@@ -1054,10 +1033,7 @@ tw.messaging_services.phone.list <- function(
   n = 400, verbose = FALSE
 ) {
   ## check for/create auth token:
-  if( is.na(sid) | is.na(token) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)

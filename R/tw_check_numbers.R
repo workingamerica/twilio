@@ -34,10 +34,7 @@
 
 tw_check_numbers <- function(phones, sid = NA, token = NA, test = FALSE) {
   ## check for/create auth token:
-  if(!test & ( is.na(sid) | is.na(token)) ) {
-    stop("Please specify both SID and token.", call.=F)
-  }
-  auth <- httr::authenticate(sid,token)
+  auth <- tw.auth(sid,token)
   
   ## because bit64 is a pain:
   phones <- as.character(phones)
