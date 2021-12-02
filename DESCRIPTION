@@ -16,6 +16,5 @@ Imports:
   jsonlite,
   progress,
   plyr,
-  glue,
   data.table,
   dplyr
