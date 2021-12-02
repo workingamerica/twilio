@@ -1,0 +1,21 @@
+Package: twilio
+Type: Package
+Title: Working America Useful Functions
+Version: 1.0
+Date: 2021-12-02
+Author: Akiva Wolberg
+Maintainer: Akiva Wolberg <awolberg@workingamerica.org>
+Description: Functions for working with twilio API directly in R.
+RoxygenNote: 7.1.2
+Encoding: UTF-8
+License: GPL-3
+Depends:
+Imports:
+  yaml,
+  httr,
+  jsonlite,
+  progress,
+  plyr,
+  glue,
+  data.table,
+  dplyr
