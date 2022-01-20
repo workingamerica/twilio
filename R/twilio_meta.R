@@ -97,6 +97,7 @@
   if(nchar(phone)==10) areacode <- substr(phone,1,3)
   else if(nchar(phone)==12 & substr(phone,1,2)=="+1") areacode <- substr(phone,3,5)
   else if(nchar(phone)==11 & substr(phone,1,1)=="1") areacode <- substr(phone,2,4)
+  else if(nchar(phone)==3 & substr(phone,1,1)!="1") areacode <- phone
   else stop("weird phone formatting, add an area code substring option: ",phone)
   
   if(verbose) {message('by area code: '); print(p)} 
