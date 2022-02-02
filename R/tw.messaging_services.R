@@ -6,15 +6,18 @@
 #' @export tw.messaging_services.create
 #' 
 #' @usage tw.messaging_services.create(
-#'   sid = NA,  token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   baseurl = 'https://wkamspoke.herokuapp.com',
 #'   friendly_name = NA,
 #'   area_code_geomatch = TRUE,
 #'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param baseurl URL of your Spoke instance.
 #' @param friendly_name Friendly name for the new service. Required.
 #' @param area_code_geomatch Delivers message from US or Canadian Twilio phone number with a matching area code or overlay to your recipient.
@@ -40,14 +43,16 @@
 #' }
 
 tw.messaging_services.create <- function(
-  sid = NA,  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   baseurl = 'https://wkamspoke.herokuapp.com',
   friendly_name = NA,
   area_code_geomatch = TRUE,
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if( is.na(friendly_name) ) {
     stop("You must provide a friendly name for the service.", call.=F)
@@ -92,10 +97,17 @@ tw.messaging_services.create <- function(
 #' @keywords twilio sms spoke api
 #' @export tw.messaging_services.list
 #' 
-#' @usage tw.messaging_services.list(sid = NA, token = NA, n = 20, alldata = FALSE, verbose = FALSE)
+#' @usage tw.messaging_services.list(
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
+#'   n = 20, 
+#'   alldata = FALSE, 
+#'   verbose = FALSE)
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param n number of records to return, for API calls that return more than one record.
 #' @param alldata return allll the fields or just the marginally useful ones?
 #' @param verbose Print detailed progress.
@@ -117,13 +129,15 @@ tw.messaging_services.create <- function(
 #' }
 
 tw.messaging_services.list <- function(
-  sid = NA, 
-  token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   n = 20, 
   alldata = FALSE, 
-  verbose = FALSE) {
+  verbose = FALSE) 
+{
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   # curl -X GET 'https://messaging.twilio.com/v1/Services?PageSize=20' ...
   u <- paste0(
@@ -163,7 +177,9 @@ tw.messaging_services.list <- function(
 #' @export tw.messaging_services.update
 #' 
 #' @usage tw.messaging_services.update(
-#'   sid = NA, token = NA, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   service_sid = NA,
 #'   baseurl = NA,
 #'   friendly_name = NA,
@@ -171,8 +187,9 @@ tw.messaging_services.list <- function(
 #'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param service_sid twilio SID of messaging service to update
 #' @param baseurl URL of your Spoke instance, e.g. 'https://wkamspoke.herokuapp.com'.
 #' @param friendly_name Friendly name for the service.
@@ -204,7 +221,9 @@ tw.messaging_services.list <- function(
 
 
 tw.messaging_services.update <- function(
-  sid = NA, token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   service_sid = NA,
   baseurl = NA,
   friendly_name = NA,
@@ -212,7 +231,7 @@ tw.messaging_services.update <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if(is.na(service_sid)) {
     stop("Must provide a service SID to update.", call.=F)
@@ -251,12 +270,15 @@ tw.messaging_services.update <- function(
 #' @export tw.messaging_services.delete
 #' 
 #' @usage tw.messaging_services.delete(
-#'   sid = NA,  token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   service_sid = NA, verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param service_sid twilio SID of messaging service to delete
 #' @param verbose Print detailed progress.
 #' 
@@ -278,11 +300,14 @@ tw.messaging_services.update <- function(
 
 
 tw.messaging_services.delete <- function(
-  sid = NA,  token = NA,
-  service_sid = NA, verbose = FALSE
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
+  service_sid = NA, 
+  verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service to delete.", call.=F)
@@ -309,13 +334,16 @@ tw.messaging_services.delete <- function(
 #' @export tw.messaging_services.phone.add
 #' 
 #' @usage tw.messaging_services.phone.add(
-#'   sid = NA,  token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   service_sid = NA,
 #'   phone_sid = NA, verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param service_sid twilio SID of messaging service to add to
 #' @param phone_sid twilio SID of phone to add
 #' @param verbose Print detailed progress.
@@ -338,13 +366,15 @@ tw.messaging_services.delete <- function(
 
 
 tw.messaging_services.phone.add <- function(
-  sid = NA,  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   service_sid = NA,
   phone_sid = NA,
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)
@@ -382,14 +412,17 @@ tw.messaging_services.phone.add <- function(
 #' @export tw.messaging_services.phone.delete
 #' 
 #' @usage tw.messaging_services.phone.delete(
-#'   sid = NA,  token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   service_sid = NA,
 #'   phone_sid = NA,
 #'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param service_sid twilio SID of messaging service to delete from
 #' @param phone_sid twilio SID of phone to delete. Note that this does NOT remove the phone from your account, just from the message service.
 #' @param verbose Print detailed progress.
@@ -411,13 +444,15 @@ tw.messaging_services.phone.add <- function(
 
 
 tw.messaging_services.phone.delete <- function(
-  sid = NA,  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   service_sid = NA,
   phone_sid = NA,
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)
@@ -449,13 +484,17 @@ tw.messaging_services.phone.delete <- function(
 #' @export tw.messaging_services.phone.list
 #' 
 #' @usage tw.messaging_services.phone.list(
-#'   sid = NA,  token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   service_sid = NA,
-#'   n = 400, verbose = FALSE
+#'   n = 400, 
+#'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param service_sid twilio SID of messaging service to delete
 #' @param n number of phones to return---400 is the max in a messaging service.
 #' @param verbose Print detailed progress.
@@ -478,12 +517,15 @@ tw.messaging_services.phone.delete <- function(
 
 
 tw.messaging_services.phone.list <- function(
-  sid = NA,  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   service_sid = NA,
-  n = 400, verbose = FALSE
+  n = 400,
+  verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   if(is.na(service_sid)) {
     stop("Must suppy the SID of the messaging service.", call.=F)

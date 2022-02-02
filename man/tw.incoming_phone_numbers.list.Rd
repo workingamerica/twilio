@@ -5,8 +5,9 @@
 \title{Twilio Spoke API: List Owned Phones}
 \usage{
 tw.incoming_phone_numbers.list(
-  sid = NA, 
-  token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   n = 20, 
   phone_number = NA, 
   friendly_name = NA, 
@@ -14,9 +15,11 @@ tw.incoming_phone_numbers.list(
 )
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{n}{number of records to return, for API calls that return more than one record.}
 
@@ -50,7 +53,7 @@ A \code{data.table}. NOTE: twilio API allows max 1000 to be returned.
 \dontrun{
 source("C:/Users/lwolberg/Desktop/.ssh/twilio_auth.R")
 
-tw.incoming_phone_numbers.list(sid, token, n=20)
+tw.incoming_phone_numbers.list(sid, key, secret, n=20)
 }
 }
 \keyword{api}

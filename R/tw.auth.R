@@ -7,8 +7,8 @@
 #' 
 #' @usage tw.auth( sid, token )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: SID or user key. String. Don't store this in scripts!
+#' @param token twilio credentials: Auth token or user secret. String. Don't store this in scripts!
 #' 
 #' @section Returns:
 #' Object of class "request" (\code{httr::authenticate(sid,token)})

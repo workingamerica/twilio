@@ -6,8 +6,9 @@
 #' @export tw.available_phone_local
 #' 
 #' @usage tw.available_phone_local(
-#'   sid = NA,
-#'   token = NA,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   page_size = 1,
 #'   area_code = NA,
 #'   near_number = NA,
@@ -18,8 +19,9 @@
 #'   plyr = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param area_code The area code of the phone numbers to read. Applies to only phone numbers in the US and Canada.
 #' @param page_size Number of results to return. Default is 1.
 #' @param near_number Given a phone number, find a geographically close number within distance miles. Distance defaults to 25 miles. Applies to only phone numbers in the US and Canada.
@@ -40,16 +42,17 @@
 #' \dontrun{
 #' source("C:/Users/lwolberg/Desktop/.ssh/twilio_auth.R")
 #' 
-#' x <- tw.available_phone_local(sid, token, area_code = 303, page_size=10)
+#' x <- tw.available_phone_local(sid,key,secret, area_code = 303, page_size=10)
 #' 
-#' x <- tw.available_phone_local(sid, token, near_number = 7209339860, distance = 100, page_size=10)
+#' x <- tw.available_phone_local(sid,key,secret, near_number = 7205559860, distance = 100, page_size=10)
 #' 
-#' (x <- tw.available_phone_local(sid, token, in_postal_code = 81611, page_size=10))
+#' (x <- tw.available_phone_local(sid,key,secret, in_postal_code = 81611, page_size=10))
 #' }
 
 tw.available_phone_local <- function(
-  sid = NA,
-  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   page_size = 1,
   area_code = NA,
   near_number = NA,
@@ -60,7 +63,7 @@ tw.available_phone_local <- function(
   plyr = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if( !is.na(area_code) & nchar(area_code)!=3 ) {

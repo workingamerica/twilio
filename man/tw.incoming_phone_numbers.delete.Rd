@@ -4,12 +4,19 @@
 \alias{tw.incoming_phone_numbers.delete}
 \title{Twilio Spoke API: Delete a phone from your account}
 \usage{
-tw.incoming_phone_numbers.delete(sid = NA, token = NA, phone_sid, verbose = FALSE)
+tw.incoming_phone_numbers.delete(
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
+  phone_sid, 
+  verbose = FALSE)
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{phone_sid}{twilio phone record SID (format 'PNXXX...XXX')}
 

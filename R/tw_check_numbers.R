@@ -8,11 +8,17 @@
 #' @keywords twilio sms
 #' @export tw_check_numbers
 #' 
-#' @usage tw_check_numbers(phones, sid = NA, token = NA, test = FALSE)
+#' @usage tw_check_numbers(
+#'   phones,
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
+#'   test = FALSE)
 #' 
 #' @param phones vector of 10-digit phone numbers, preferably as character strings.
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param test test the progress bar
 #' 
 #' @examples
@@ -32,9 +38,16 @@
 ### TODO: budget as a token list? https://stackoverflow.com/questions/12598242/
 ### https://elbauldelprogramador.com/en/acceder-variable-dentro-funcion-r/
 
-tw_check_numbers <- function(phones, sid = NA, token = NA, test = FALSE) {
+tw_check_numbers <- function(
+  phones,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
+  test = FALSE
+  ) 
+{
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   
   ## because bit64 is a pain:
   phones <- as.character(phones)

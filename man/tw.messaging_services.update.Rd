@@ -5,7 +5,9 @@
 \title{Twilio Spoke API: Update a Messaging Service}
 \usage{
 tw.messaging_services.update(
-  sid = NA, token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   service_sid = NA,
   baseurl = NA,
   friendly_name = NA,
@@ -14,9 +16,11 @@ tw.messaging_services.update(
 )
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{service_sid}{twilio SID of messaging service to update}
 

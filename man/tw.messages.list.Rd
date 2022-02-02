@@ -5,7 +5,9 @@
 \title{Twilio Spoke API: Latest Messages}
 \usage{
 tw.messages.list(
-  sid = NA, token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   from = NA, 
   to = NA, 
   datesent = NA, 
@@ -14,9 +16,11 @@ tw.messages.list(
 )
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{from}{number a message was sent from}
 

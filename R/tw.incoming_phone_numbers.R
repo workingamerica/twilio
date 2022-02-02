@@ -21,16 +21,18 @@
 #' @export tw.incoming_phone_numbers.list
 #' 
 #' @usage tw.incoming_phone_numbers.list(
-#'   sid = NA, 
-#'   token = NA, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   n = 20, 
 #'   phone_number = NA, 
 #'   friendly_name = NA, 
 #'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param n number of records to return, for API calls that return more than one record.
 #' @param phone_number The phone numbers of the IncomingPhoneNumber resources to read. You can specify partial numbers and use '*' as a wildcard for any digit.
 #' @param friendly_name Provide full (not partial :P) friendly name to match only a subset of phones.
@@ -53,20 +55,22 @@
 #' \dontrun{
 #' source("C:/Users/lwolberg/Desktop/.ssh/twilio_auth.R")
 #' 
-#' tw.incoming_phone_numbers.list(sid, token, n=20)
+#' tw.incoming_phone_numbers.list(sid, key, secret, n=20)
 #' }
 
 
 
 tw.incoming_phone_numbers.list <- function(
-  sid = NA, token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
 	n = 20, 
 	phone_number = NA,
 	friendly_name = NA, 
 	verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   u <- paste0(
@@ -98,10 +102,17 @@ tw.incoming_phone_numbers.list <- function(
 #' @keywords twilio sms spoke api
 #' @export tw.incoming_phone_numbers.fetch
 #' 
-#' @usage tw.incoming_phone_numbers.fetch(sid = NA, token = NA, phone_sid, verbose = FALSE)
+#' @usage tw.incoming_phone_numbers.fetch(
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
+#'   phone_sid,
+#'   verbose = FALSE
+#'   )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param phone_sid twilio phone record SID (format 'PNXXXX...XXXX')
 #' @param verbose Print detailed progress.
 #' 
@@ -121,12 +132,14 @@ tw.incoming_phone_numbers.list <- function(
 #' 
 
 tw.incoming_phone_numbers.fetch <- function(
-  sid = NA, token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   phone_sid, 
   verbose = FALSE
   ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXX..XX/IncomingPhoneNumbers/PNXX..XX.json'
@@ -155,10 +168,16 @@ tw.incoming_phone_numbers.fetch <- function(
 #' @keywords twilio sms spoke api
 #' @export tw.incoming_phone_numbers.delete
 #' 
-#' @usage tw.incoming_phone_numbers.delete(sid = NA, token = NA, phone_sid, verbose = FALSE)
+#' @usage tw.incoming_phone_numbers.delete(
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
+#'   phone_sid, 
+#'   verbose = FALSE)
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param phone_sid twilio phone record SID (format 'PNXXX...XXX')
 #' @param verbose Print detailed progress.
 #' 
@@ -174,13 +193,14 @@ tw.incoming_phone_numbers.fetch <- function(
 #' }
 
 tw.incoming_phone_numbers.delete <- function(
-  sid = NA,
-  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   phone_sid, 
   verbose = FALSE
   ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if(is.na(phone_sid)) {
@@ -207,15 +227,18 @@ tw.incoming_phone_numbers.delete <- function(
 #' @export tw.incoming_phone_numbers.create
 #' 
 #' @usage tw.incoming_phone_numbers.create(
-#'   sid = NA, token = NA, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   area_code = NA, 
 #'   phone_number = NA,
 #'   voice_url = '', 
 #'   friendly_name = NA,
 #'   verbose = FALSE )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param area_code The desired area code for your new incoming phone number. Can be any three-digit, US or Canada area code. We will provision an available phone number within this area code for you. You must provide an area_code or a phone_number. (US and Canada only).
 #' @param phone_number The phone number to purchase specified in E.164 format. E.164 phone numbers consist of a + followed by the country code and subscriber number without punctuation characters. For example, +14155551234.
 #' @param voice_url The URL that we should call to answer a call to the new phone number.
@@ -243,8 +266,9 @@ tw.incoming_phone_numbers.delete <- function(
 #' }
 
 tw.incoming_phone_numbers.create <- function(
-  sid = NA,
-  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   area_code = NA,
   phone_number = NA,
   voice_url = '',
@@ -252,7 +276,7 @@ tw.incoming_phone_numbers.create <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   if(is.na(phone_number)==is.na(area_code)) {

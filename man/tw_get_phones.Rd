@@ -10,7 +10,9 @@ tw_get_phones(
   state = NA, 
   project, 
   msgsvc_sid, 
-  sid, token, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   max_dist=75
   )
 }
@@ -25,9 +27,11 @@ tw_get_phones(
 
 \item{msgsvc_sid}{The message service SID to add the phone to.}
 
-\item{sid}{Twilio account SID}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{Twilio account Token}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{max_dist}{Maximum search distance from provided phone. Default 75 miles.}
 }
@@ -74,7 +78,7 @@ y <- tw_get_phones(
   state = NA,
   project = "Mercury Opinion",
   msgsvc_sid = "MGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  sid=sid, token=token
+  sid=sid, key=key, secret=secret
 )
 
 }

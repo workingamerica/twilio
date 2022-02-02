@@ -4,14 +4,21 @@
 \alias{tw_check_numbers}
 \title{Twilio Check Numbers API}
 \usage{
-tw_check_numbers(phones, sid = NA, token = NA, test = FALSE)
+tw_check_numbers(
+  phones,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
+  test = FALSE)
 }
 \arguments{
 \item{phones}{vector of 10-digit phone numbers, preferably as character strings.}
 
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{test}{test the progress bar}
 }

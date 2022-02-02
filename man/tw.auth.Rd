@@ -7,9 +7,9 @@
 tw.auth( sid, token )
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: SID or user key. String. Don't store this in scripts!}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{token}{twilio credentials: Auth token or user secret. String. Don't store this in scripts!}
 }
 \description{
 Twilio Authentication Check

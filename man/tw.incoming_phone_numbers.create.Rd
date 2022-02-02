@@ -5,7 +5,9 @@
 \title{Twilio Spoke API: Purchase Phone Number}
 \usage{
 tw.incoming_phone_numbers.create(
-  sid = NA, token = NA, 
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   area_code = NA, 
   phone_number = NA,
   voice_url = '', 
@@ -13,9 +15,11 @@ tw.incoming_phone_numbers.create(
   verbose = FALSE )
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{area_code}{The desired area code for your new incoming phone number. Can be any three-digit, US or Canada area code. We will provision an available phone number within this area code for you. You must provide an area_code or a phone_number. (US and Canada only).}
 

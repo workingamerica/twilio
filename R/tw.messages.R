@@ -6,7 +6,9 @@
 #' @export tw.messages.list
 #' 
 #' @usage tw.messages.list(
-#'   sid = NA, token = NA, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   from = NA, 
 #'   to = NA, 
 #'   datesent = NA, 
@@ -14,8 +16,9 @@
 #'   verbose = FALSE
 #' )
 #' 
-#' @param sid twilio credentials: SID string. Don't store this in scripts!
-#' @param token twilio credentials: Auth token string. Don't store this in scripts!
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param n number of records to return, for API calls that return more than one record.
 #' @param from number a message was sent from
 #' @param to number a message was sent to
@@ -34,8 +37,9 @@
 #' }
 
 tw.messages.list <- function(
-  sid = NA, 
-  token = NA,
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   from = NA,
   to = NA,
   datesent = NA,
@@ -43,7 +47,7 @@ tw.messages.list <- function(
   verbose = FALSE
 ) {
   ## check for/create auth token:
-  auth <- tw.auth(sid,token)
+  auth <- tw.auth(sid=key,token=secret)
   if(is.na(sid)) sid <- Sys.getenv('TWILIO_ACCOUNT_SID')
   
   # curl -X GET 'https://api.twilio.com/2010-04-01/Accounts/ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

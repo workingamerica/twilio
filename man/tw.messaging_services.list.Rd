@@ -4,12 +4,20 @@
 \alias{tw.messaging_services.list}
 \title{Twilio Spoke API: List Messaging Services}
 \usage{
-tw.messaging_services.list(sid = NA, token = NA, n = 20, alldata = FALSE, verbose = FALSE)
+tw.messaging_services.list(
+  sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
+  n = 20, 
+  alldata = FALSE, 
+  verbose = FALSE)
 }
 \arguments{
-\item{sid}{twilio credentials: SID string. Don't store this in scripts!}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{twilio credentials: Auth token string. Don't store this in scripts!}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{n}{number of records to return, for API calls that return more than one record.}
 

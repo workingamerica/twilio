@@ -17,7 +17,8 @@
 #'   max_dist, 
 #'   msgsvc_sid, 
 #'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
-#'   token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   progress=FALSE, verbose=FALSE)
 #'
 #' @param phone Single phone number to match, 10 digit (2025555555) or 12 digit (+12025555555), or 3-digit area code. TODO: Other formats.
@@ -25,8 +26,9 @@
 #' @param state Optional vector of states --- if \code{state} is supplied & twilio's response phone is out of state, phone will not be purchased.
 #' @param project Project name---either "Working America" or "Mercury Opinion". Will be incorporated into phone Friendly Name.
 #' @param msgsvc_sid The message service SID to add the phone to.
-#' @param sid Twilio account SID
-#' @param token Twilio account Token
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param progress Show progress bar --- disabled by default when this is used outside context of \code{tw_get_phones()}.
 #' @param max_dist Maximum search distance from provided phone
 #' @param verbose For error diagnosis.
@@ -38,7 +40,7 @@
 #' 
 #' # NOTE: you could use the internal function that takes a single phone at a time 
 #' # if you wanted to, for some reason.
-#' .tw_get_phones <- function(phone, state, project, msgsvc_sid, sid, token)
+#' .tw_get_phones <- function(phone, state, project, msgsvc_sid, sid, key, secret)
 #'
 #' }
 
@@ -48,7 +50,8 @@
   state=NA,
   max_dist,
   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
-  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   progress=FALSE,
   verbose=FALSE
 ) {
@@ -57,7 +60,7 @@
     
     ### TEST FOR GEOCODE AVAILABILITY:
     p <- try(
-      tw.available_phone_local(sid,token, near_number = phone, distance = 1)
+      tw.available_phone_local(sid,key,secret, near_number = phone, distance = 1)
     )
     # if no phones, this returns list(), which has length==0.
     
@@ -78,7 +81,7 @@
       for( d in seq(from=10, to=max_dist+1, by=50) ) {
         if(verbose) {message(d,' miles: '); print(p)} 
         p <- try(
-          tw.available_phone_local(sid,token, near_number = phone, distance = d)
+          tw.available_phone_local(sid,key,secret, near_number = phone, distance = d)
         )
         # if no phones, this returns list(), which has length==0. if phones returned, return early!
         if(length(p)!=0 & is.null(p$code)) {
@@ -101,14 +104,14 @@
   else stop("weird phone formatting, add an area code substring option: ",phone)
   
   if(verbose) {message('by area code: '); print(p)} 
-  p <- tw.available_phone_local(sid,token, area_code = areacode)
+  p <- tw.available_phone_local(sid,key,secret, area_code = areacode)
   # success?
   if(length(p)!=0 & is.null(p$code)) return(p)
   
   # still none? try locality
   if(!is.na(locality)) {
     if(verbose) {message('by locality: '); print(locality)} 
-    p <- tw.available_phone_local(sid,token, in_locality = locality)
+    p <- tw.available_phone_local(sid,key,secret, in_locality = locality)
     # success?
     if(length(p)!=0 & is.null(p$code)) return(p)
   }
@@ -132,7 +135,8 @@
   max_dist,
   msgsvc_sid,
   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
-  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   progress=FALSE,
   verbose=FALSE
 ) {
@@ -143,7 +147,8 @@
     state,
     max_dist,
     sid,
-    token,
+    key,
+    secret,
     verbose
   )
   
@@ -169,7 +174,7 @@
   
   # purchase! :O
   purch <- try(tw.incoming_phone_numbers.create(
-    sid,token,
+    sid,key,secret,
     phone_number = p$phone_number,
     friendly_name = paste0(project," (",p$region,")")
   ))
@@ -191,7 +196,10 @@
   
   # add to msg svc:
   add_result <- try(
-    tw.messaging_services.phone.add(sid, token, service_sid = msgsvc_sid, phone_sid = purch$sid)
+    tw.messaging_services.phone.add(
+      sid,key,secret,
+      service_sid = msgsvc_sid,
+      phone_sid = purch$sid)
   )
   if( inherits(add_result, "try-error") ) {
     message("\nTwilio error after purchasing. Couldn't add ", purch$sid," to ",msgsvc_sid)
@@ -228,7 +236,9 @@
 #'   state = NA, 
 #'   project, 
 #'   msgsvc_sid, 
-#'   sid, token, 
+#'   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
+#'   key = Sys.getenv('TWILIO_KEY'),
+#'   secret = Sys.getenv('TWILIO_SECRET'),
 #'   max_dist=75
 #'   )
 #'
@@ -237,8 +247,9 @@
 #' @param state Optional vector of states --- if \code{state} is supplied & twilio's response phone is out of state, phone will not be purchased.
 #' @param project Project name---either "Working America" or "Mercury Opinion". Will be incorporated into phone Friendly Name.
 #' @param msgsvc_sid The message service SID to add the phone to.
-#' @param sid Twilio account SID
-#' @param token Twilio account Token
+#' @param sid twilio credentials: Account SID.
+#' @param key twilio credentials: Account user key.
+#' @param secret twilio credentials: User secret. Don't store this in scripts!!!
 #' @param max_dist Maximum search distance from provided phone. Default 75 miles.
 #'
 #' @examples
@@ -280,7 +291,7 @@
 #'   state = NA,
 #'   project = "Mercury Opinion",
 #'   msgsvc_sid = "MGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-#'   sid=sid, token=token
+#'   sid=sid, key=key, secret=secret
 #' )
 #'
 #' }
@@ -293,12 +304,13 @@ tw_get_phones <- function(
   project, 
   msgsvc_sid, 
   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
-  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   max_dist=75) {
   # check for message service SID:
   if(is.na(msgsvc_sid)) stop("Please supply a message service SID.")
   if(nchar(msgsvc_sid)!=34 | substr(msgsvc_sid,1,2)!="MG") stop("Message service SID is invalid.")
-  existing <- tw.messaging_services.phone.list(sid, token, service_sid=msgsvc_sid)
+  existing <- tw.messaging_services.phone.list(sid,key,secret, service_sid=msgsvc_sid)
   message("There are ", nrow(existing), " existing phones in this message service.")
   
   result <- plyr::ldply(
@@ -309,11 +321,12 @@ tw_get_phones <- function(
     locality = locality,
     project = project,
     msgsvc_sid = msgsvc_sid,
-    sid=sid, token=token, max_dist = max_dist,
+    max_dist = max_dist,
+    sid=sid, key=key, secret=secret,
     .progress="text", progress=TRUE
   )
   
-  existing <- tw.messaging_services.phone.list(sid, token, service_sid=msgsvc_sid)
+  existing <- tw.messaging_services.phone.list(sid,key,secret, service_sid=msgsvc_sid)
   message("There are now ", nrow(existing), " phones in this message service.")
   
   result <- data.table::as.data.table(result) # i think this was the error?

@@ -13,7 +13,8 @@
   max_dist, 
   msgsvc_sid, 
   sid = Sys.getenv('TWILIO_ACCOUNT_SID'),
-  token = Sys.getenv('TWILIO_AUTH_TOKEN'),
+  key = Sys.getenv('TWILIO_KEY'),
+  secret = Sys.getenv('TWILIO_SECRET'),
   progress=FALSE, verbose=FALSE)
 }
 \arguments{
@@ -25,9 +26,11 @@
 
 \item{max_dist}{Maximum search distance from provided phone}
 
-\item{sid}{Twilio account SID}
+\item{sid}{twilio credentials: Account SID.}
 
-\item{token}{Twilio account Token}
+\item{key}{twilio credentials: Account user key.}
+
+\item{secret}{twilio credentials: User secret. Don't store this in scripts!!!}
 
 \item{progress}{Show progress bar --- disabled by default when this is used outside context of \code{tw_get_phones()}.}
 
@@ -48,7 +51,7 @@ source("C:/Users/lwolberg/Desktop/.ssh/twilio_auth.R")
 
 # NOTE: you could use the internal function that takes a single phone at a time 
 # if you wanted to, for some reason.
-.tw_get_phones <- function(phone, state, project, msgsvc_sid, sid, token)
+.tw_get_phones <- function(phone, state, project, msgsvc_sid, sid, key, secret)
 
 }
 }
