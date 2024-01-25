@@ -24,7 +24,7 @@
 #' @param phone Single phone number to match, 10 digit (2025555555) or 12 digit (+12025555555), or 3-digit area code. TODO: Other formats.
 #' @param locality Optional vector of localities, as a supplement or alternative to providing phones/area codes.
 #' @param state Optional vector of states --- if \code{state} is supplied & twilio's response phone is out of state, phone will not be purchased.
-#' @param project Project name---either "Working America" or "Mercury Opinion". Will be incorporated into phone Friendly Name.
+#' @param project Project name. Will be incorporated into phone Friendly Name.
 #' @param msgsvc_sid The message service SID to add the phone to.
 #' @param sid twilio credentials: Account SID.
 #' @param key twilio credentials: Account user key.
@@ -245,7 +245,7 @@
 #' @param phones Vector of phones number to match, 10 digit (2025555555) or 12 digit (+12025555555), or 3-digit area code. TODO: Other formats.
 #' @param locality Optional vector of localities, as a supplement or alternative to providing phones/area codes.
 #' @param state Optional vector of states --- if \code{state} is supplied & twilio's response phone is out of state, phone will not be purchased.
-#' @param project Project name---either "Working America" or "Mercury Opinion". Will be incorporated into phone Friendly Name.
+#' @param project Project name. Will be incorporated into phone Friendly Name.
 #' @param msgsvc_sid The message service SID to add the phone to.
 #' @param sid twilio credentials: Account SID.
 #' @param key twilio credentials: Account user key.
@@ -289,7 +289,7 @@
 #' y <- tw_get_phones(
 #'   phones = phsamp,
 #'   state = NA,
-#'   project = "Mercury Opinion",
+#'   project = "Working America",
 #'   msgsvc_sid = "MGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 #'   sid=sid, key=key, secret=secret
 #' )
