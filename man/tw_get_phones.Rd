@@ -23,7 +23,7 @@ tw_get_phones(
 
 \item{state}{Optional vector of states --- if \code{state} is supplied & twilio's response phone is out of state, phone will not be purchased.}
 
-\item{project}{Project name---either "Working America" or "Mercury Opinion". Will be incorporated into phone Friendly Name.}
+\item{project}{Project name. Will be incorporated into phone Friendly Name.}
 
 \item{msgsvc_sid}{The message service SID to add the phone to.}
 
