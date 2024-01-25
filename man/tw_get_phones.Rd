@@ -76,7 +76,7 @@ phsamp <- sample(x[sample==1, cell], size=nph, replace=F)
 y <- tw_get_phones(
   phones = phsamp,
   state = NA,
-  project = "Mercury Opinion",
+  project = "Working America",
   msgsvc_sid = "MGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   sid=sid, key=key, secret=secret
 )
